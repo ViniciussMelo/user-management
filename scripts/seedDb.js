@@ -1,13 +1,15 @@
-const { Profile, Contract, Job } = require('../src/models/model');
+import { Profile } from '../src/modules/admin/models/profile.model.js';
+import { Contract } from '../src/modules/contracts/index.js';
+import { Job } from '../src/modules/jobs/models/job.model.js';
+import { sequelize } from '../src/shared/database/sequelize.client.js';
 
 /* WARNING THIS WILL DROP THE CURRENT DATABASE */
 seed();
 
 async function seed() {
   // create tables
-  await Profile.sync({ force: true });
-  await Contract.sync({ force: true });
-  await Job.sync({ force: true });
+  await sequelize.sync({ force: true });
+
   //insert data
   await Promise.all([
    Profile.create({

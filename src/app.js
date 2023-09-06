@@ -2,7 +2,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import cors from 'cors';
 
-import { sequelize } from './shared/models/model.js';
+import { sequelize } from './shared/database/sequelize.client.js';
 import AppError from './shared/errors/app.error.js';
 import router from './shared/routes/index.js';
 
@@ -10,9 +10,6 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
-
-app.set('sequelize', sequelize);
-app.set('models', sequelize.models);
 
 app.use(router);
 
