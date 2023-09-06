@@ -7,8 +7,12 @@ class ContractController {
     this.#contractService = new ContractService();
   }
 
-  index(req, res) {
-    return res.send();
+  async index(req, res) {
+    const { id: profileId } = req.profile;
+
+    const data = await this.#contractService.index(profileId);
+
+    return res.json({ data }).end();
   }
 
   async getById(req, res) {

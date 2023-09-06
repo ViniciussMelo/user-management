@@ -1,4 +1,4 @@
-export class GetContractById {
+export class GetContract {
   static factory(contract) {
     return {
       id: contract.id,

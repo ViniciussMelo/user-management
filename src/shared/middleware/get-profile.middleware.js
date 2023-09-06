@@ -3,7 +3,7 @@ import cache from '../cache/node.cache.js';
 import { Profile } from '../../modules/index.js';
 
 const getProfile = async (req, res, next) => {
-    const profileId = req.get('profile_id') || 1;
+    const profileId = req.get('profile_id') || 0;
     const cacheKey = `profile-${profileId}`;
 
     const cachedData = cache.get(cacheKey);
