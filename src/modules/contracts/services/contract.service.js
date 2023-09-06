@@ -4,10 +4,8 @@ import { Contract } from "../models/contract.model.js";
 export class ContractService {
 
   async getContractById(req, res) {
-    const contract = await Contract.findOne({ where: { id: 1 } });
+    const { id } = req.params;
 
-    console.log('contract: ', contract)
+    const contract = await Contract.findOne({ where: { id: 1 } });
   }
 }
-
-new ContractService().getContractById(null, null);

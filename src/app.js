@@ -2,7 +2,6 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import cors from 'cors';
 
-import { sequelize } from './shared/database/sequelize.client.js';
 import AppError from './shared/errors/app.error.js';
 import router from './shared/routes/index.js';
 
