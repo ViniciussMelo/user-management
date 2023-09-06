@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser';
+import 'express-async-errors';
 import express from 'express';
 import cors from 'cors';
 
@@ -21,7 +22,7 @@ app.use(
     }
 
     return response.status(500).json({
-      status: "error",
+      status: 'error',
       message: `Internal server error - ${err.message}`,
     });
   }

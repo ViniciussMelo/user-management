@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+import { Sequelize } from 'sequelize';
 
 import { sequelize } from '../../../shared/database/sequelize.client.js';
 
@@ -7,7 +7,7 @@ export const Contract = sequelize.define('Contract', {
     type: Sequelize.TEXT,
     allowNull: false
   },
-  status:{
-    type: Sequelize.ENUM('new','in_progress','terminated')
+  status: {
+    type: Sequelize.ENUM('new', 'in_progress', 'terminated')
   }
 });

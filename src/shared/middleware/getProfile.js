@@ -3,7 +3,7 @@ import cache from '../cache/node.cache.js';
 import { Profile } from '../../modules/index.js';
 
 const getProfile = async (req, res, next) => {
-    const profileId = req.get('profile_id') || 0;
+    const profileId = req.get('profile_id') || 1;
     const cacheKey = `profile-${profileId}`;
 
     const cachedData = cache.get(cacheKey);
@@ -21,6 +21,8 @@ const getProfile = async (req, res, next) => {
     const oneHourInSeconds = 3600;
 
     cache.set(cacheKey, profile, oneHourInSeconds);
+
+    req.profile = profile.dataValues;
 
     next();
 };

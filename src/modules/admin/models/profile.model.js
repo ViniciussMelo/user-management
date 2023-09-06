@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+import { Sequelize } from 'sequelize';
 
 import { sequelize } from '../../../shared/database/sequelize.client.js';
 
@@ -15,8 +15,8 @@ export const Profile = sequelize.define('Profile', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  balance:{
-    type:Sequelize.DECIMAL(12,2)
+  balance: {
+    type: Sequelize.DECIMAL(12, 2)
   },
   type: {
     type: Sequelize.ENUM('client', 'contractor')

@@ -1,4 +1,4 @@
-import { ContractService } from "../services/contract.service.js";
+import { ContractService } from '../services/contract.service.js';
 
 class ContractController {
   #contractService;
@@ -7,12 +7,17 @@ class ContractController {
     this.#contractService = new ContractService();
   }
 
-  index(request, response) {
-    return response.send();
+  index(req, res) {
+    return res.send();
   }
 
-  getById(request, response) {
-    return response.send();
+  async getById(req, res) {
+    const { id } = req.params;
+    const { id: profileId } = req.profile;
+
+    const data = await this.#contractService.getContractById(id, profileId);
+
+    return res.json({ data }).end();
   }
 }
 

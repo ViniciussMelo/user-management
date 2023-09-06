@@ -1,5 +1,11 @@
-import { describe, test, beforeEach } from '@jest/globals';
-import { ContractService, contractService } from './contract.service';
+import { describe, test, beforeEach, expect, afterEach, jest } from '@jest/globals';
+
+import { ContractMock } from '../../../../test/mocks/contract/mock.js';
+import { GetContractById } from '../dtos/get-contract-by-id.dto.js';
+import AppError from '../../../shared/errors/app.error.js';
+import { ContractService } from './contract.service.js';
+import { Contract } from '../models/contract.model.js';
+
 
 describe('Test suit for ContractService', () => {
   let service;
@@ -8,11 +14,28 @@ describe('Test suit for ContractService', () => {
     service = new ContractService();
   });
 
-  describe('#getContractById', () => {
-    test('should be able to get the contracts for the user profile who is calling', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  })
 
+  describe('#getContractById', () => {
+    test('should be able to get the contracts for the user profile who is calling', async () => {
+      jest.spyOn(Contract, 'findOne').mockImplementationOnce(() => {
+        return ContractMock;
+      });
+
+      const result = await service.getContractById(null, null);
+      const expected = GetContractById.factory(ContractMock)
+
+      expect(result).toStrictEqual(expected);
     });
 
-    test.todo('should not return the contract if it not belongs to the profile calling');
+    test('should not return the contract if it not belongs to the profile calling', async () => {
+      await expect(
+        service.getContractById(null, null)
+      ).rejects.toEqual(
+        new AppError('Contract not found!', 404)
+      );
+    });
   });
 });

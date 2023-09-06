@@ -8,6 +8,10 @@ export default {
     "lcov",
     "clover"
   ],
+  collectCoverageFrom: [
+    "src/modules/**/*.{js,jsx,ts,tsx}",
+    "!<rootDir>/node_modules/"
+  ],
   coverageThreshold: {
     global: {
       branch: 100,
