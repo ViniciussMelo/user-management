@@ -3,17 +3,38 @@ import { Op } from 'sequelize';
 import AppError from '../../../shared/errors/app.error.js';
 import { GetContract } from '../dtos/get-contract.dto.js';
 import { Contract } from '../models/contract.model.js';
+import { Profile } from '../../admin/index.js';
 
 
 export class ContractService {
-  async index(profileId) {
+  _getRelationByType(profileId, type) {
+    const relation = {
+      client: {
+        model: Profile,
+        as: 'Client',
+        where: {
+          type: 'client',
+          id: profileId,
+        },
+      },
+      contractor: {
+        model: Profile,
+        as: 'Contractor',
+        where: {
+          type: 'contractor',
+          id: profileId,
+        },
+      }
+    }
+
+    return relation[type];
+  }
+
+  async index(profileId, type) {
     const contracts = await Contract.findAll({
+      include: [this._getRelationByType(profileId, type)],
       where: {
         status: { [Op.not]: 'terminated' },
-        [Op.or]: [
-          { 'ClientId': profileId },
-          { 'ContractorId': profileId },
-        ]
       }
     });
 

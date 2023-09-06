@@ -1,6 +1,7 @@
-import { describe, test, beforeEach, expect, afterEach, jest } from '@jest/globals';
+import { describe, test, beforeEach, expect, jest } from '@jest/globals';
 
-import { contractMock, contractNewMock } from '../../../../test/mocks/contract/mock.js';
+
+import { ContractFacade } from '../../../../test/mocks/contract/contract-facade.mock.js';
 import { GetContract } from '../dtos/get-contract.dto.js';
 import AppError from '../../../shared/errors/app.error.js';
 import { ContractService } from './contract.service.js';
@@ -8,46 +9,65 @@ import { Contract } from '../models/contract.model.js';
 
 
 describe('Test suit for ContractService', () => {
+  let contractFacade;
   let service;
 
   beforeEach(() => {
+    contractFacade = new ContractFacade();
     service = new ContractService();
   });
 
   afterEach(() => {
     jest.clearAllMocks();
-  })
-
+  });
 
   describe('#index', () => {
-    test('should be able to get a list of non terminated contracts belonging to a user (client or contractor)', async () => {
-      jest.spyOn(Contract, 'findAll').mockImplementationOnce(() => {
-        return [contractNewMock];
-      });
+    test('should be able to get a list of non terminated contracts belonging to a client', async () => {
+      const clientId = 1;
+      const contractsMock = contractFacade.buildNonTerminatedContractsByClientId(clientId);
 
-      const result = await service.index(1);
+      jest.spyOn(Contract, 'findAll').mockImplementationOnce(() => contractsMock);
 
-      const expected = GetContract.factory(contractNewMock)
+      const result = await service.index(clientId);
 
-      expect(result).toStrictEqual([expected]);
+      const expected = contractsMock.map((contract) => GetContract.factory(contract));
+
+      expect(result).toStrictEqual(expected);
+    });
+
+    test('should be able to get a list of non terminated contracts belonging to a contractor', async () => {
+      const contractorId = 6;
+      const contractsMock = contractFacade.buildNonTerminatedContractsByContractorId(contractorId);
+
+      jest.spyOn(Contract, 'findAll').mockImplementationOnce(() => contractsMock);
+
+      const result = await service.index(contractorId);
+
+      const expected = contractsMock.map((contract) => GetContract.factory(contract));
+
+      expect(result).toStrictEqual(expected);
     });
   });
 
   describe('#getContractById', () => {
     test('should be able to get the contracts for the user profile who is calling', async () => {
-      jest.spyOn(Contract, 'findOne').mockImplementationOnce(() => {
-        return contractMock;
-      });
+      const contractId = 3;
+      const clientId = 2;
+      const contractMock = contractFacade.buildContractByIdAndClientId(contractId, clientId);
 
-      const result = await service.getContractById(null, null);
-      const expected = GetContract.factory(contractMock)
+      jest.spyOn(Contract, 'findOne').mockImplementationOnce(() => contractMock);
+
+      const result = await service.getContractById(contractId, clientId);
+      const expected = GetContract.factory(contractMock);
 
       expect(result).toStrictEqual(expected);
     });
 
     test('should not return the contract if it not belongs to the profile calling', async () => {
+      jest.spyOn(Contract, 'findOne').mockImplementationOnce(() => null);
+
       await expect(
-        service.getContractById(null, null)
+        service.getContractById(12345, 12345)
       ).rejects.toEqual(
         new AppError('Contract not found!', 404)
       );

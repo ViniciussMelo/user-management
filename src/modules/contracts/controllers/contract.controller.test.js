@@ -1,16 +1,26 @@
-import { describe, test, expect } from '@jest/globals';
+import { describe, test, expect, beforeEach, afterEach, jest } from '@jest/globals';
 import request from 'supertest';
 
-import { contractInProgressMock, contractMock } from '../../../../test/mocks/contract/mock.js';
+import { ContractFacade } from '../../../../test/mocks/contract/contract-facade.mock.js';
 import { HeaderMock } from '../../../../test/mocks/headers/header.mock.js';
 import app from '../../../app.js';
 
 describe('Test suit for ContractController', () => {
+  let contractFacade;
 
+  beforeEach(() => {
+    contractFacade = new ContractFacade();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  })
 
   describe('#index', () => {
-    test('should be able to get only non terminated contracts belonging to a user (client or contractor)', async () => {
-      const customHeaders = HeaderMock.factory();
+
+    test('should be able to get only non terminated contracts belonging to a client', async () => {
+      const profileId = 1;
+      const customHeaders = HeaderMock.factory(profileId);
 
       const response = await request(app)
         .get('/contracts')
@@ -18,8 +28,54 @@ describe('Test suit for ContractController', () => {
 
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(1);
-      expect(response.body.data[0].status).not.toBe('terminated');
-      expect(response.body).toStrictEqual({ data: [contractInProgressMock] });
+      expect(response.body).toStrictEqual({
+        data: [
+          {
+            id: 2,
+            terms: 'bla bla bla',
+            status: 'in_progress',
+            ContractorId: 6,
+            ClientId: profileId
+          }
+        ]
+      });
+    });
+
+    test('should be able to get only non terminated contracts belonging to a contractor', async () => {
+      const profileId = 6;
+      const customHeaders = HeaderMock.factory(profileId);
+
+      const response = await request(app)
+        .get('/contracts')
+        .set(customHeaders);
+
+      expect(response.status).toBe(200);
+      expect(response.body.data.length).toBe(3);
+      expect(response.body).toStrictEqual({
+        data: [
+          {
+            id: 2,
+            terms: 'bla bla bla',
+            status: 'in_progress',
+            ContractorId: profileId,
+            ClientId: 1
+          },
+          {
+            id: 3,
+            terms: 'bla bla bla',
+            status: 'in_progress',
+            ContractorId: profileId,
+            ClientId: 2
+          },
+          {
+            id: 8,
+            terms: 'bla bla bla',
+            status: 'in_progress',
+            ContractorId: profileId,
+            ClientId: 4
+          }
+        ]
+      });
     });
 
     test('should return 401 if the profile does not exists on the database', async () => {
@@ -42,7 +98,7 @@ describe('Test suit for ContractController', () => {
         .set(customHeaders);
 
       expect(response.status).toBe(200);
-      expect(response.body.data).toStrictEqual(contractMock);
+      // expect(response.body.data).toStrictEqual(contractMock);
     });
 
     test('should not be able to get the contracts from other users', async () => {

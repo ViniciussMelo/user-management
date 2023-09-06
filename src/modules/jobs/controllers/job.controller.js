@@ -1,10 +1,22 @@
+import { JobService } from "../services/job.service.js";
+
 class JobController {
-  getUnpaid(request, response) {
-    return response.send();
+  #jobService;
+
+  constructor() {
+    this.#jobService = new JobService();
   }
 
-  createPayment(request, response) {
-    return response.send();
+  async getUnpaid(req, res) {
+    const { id: profileId } = req.profile;
+
+    const data = await this.#jobService.getUnpaid(profileId);
+
+    return res.json({ data: [...data] }).end();
+  }
+
+  createPayment(req, res) {
+    return res.send();
   }
 }
 const jobController = new JobController();

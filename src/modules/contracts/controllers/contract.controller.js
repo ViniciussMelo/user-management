@@ -8,20 +8,20 @@ class ContractController {
   }
 
   async index(req, res) {
-    const { id: profileId } = req.profile;
+    const { id: profileId, type } = req.profile;
 
-    const data = await this.#contractService.index(profileId);
+    const data = await this.#contractService.index(profileId, type);
 
-    return res.json({ data }).end();
+    return res.json({ data: [...data] }).end();
   }
 
   async getById(req, res) {
     const { id } = req.params;
-    const { id: profileId } = req.profile;
+    const { id: profileId, type } = req.profile;
 
-    const data = await this.#contractService.getContractById(id, profileId);
+    const data = await this.#contractService.getContractById(id, profileId, type);
 
-    return res.json({ data }).end();
+    return res.json({ data: { ...data } }).end();
   }
 }
 
