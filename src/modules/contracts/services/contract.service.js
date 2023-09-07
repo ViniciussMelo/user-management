@@ -5,7 +5,6 @@ import { GetContract } from '../dtos/get-contract.dto.js';
 import { Contract } from '../models/contract.model.js';
 import { Profile } from '../../admin/index.js';
 
-
 export class ContractService {
   _getRelationByType(profileId, type) {
     const relation = {

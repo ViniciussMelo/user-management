@@ -95,7 +95,7 @@ describe('Test suit for JobService', () => {
 
     test('should not be able for a client to make a payment if his balance is less than the amount', async () => {
       const [clientWithNoBalance] = adminFacade.buildClientWithNoBalance();
-      const [unpaidJob] = jobFacade.buildUnpaidJobsByClientId(clientWithNoBalance.id);
+      const [unpaidJob] = jobFacade.buildUnpaidJobsAndInProgressContractsByClientId(clientWithNoBalance.id);
 
       jest.spyOn(Profile, 'findOne').mockImplementationOnce(() => clientWithNoBalance);
       jest.spyOn(Job, 'findOne').mockImplementationOnce(() => unpaidJob);

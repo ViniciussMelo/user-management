@@ -17,4 +17,8 @@ export class MathUtil {
   static min(num1, num2) {
     return MathUtil._math(num1, num2, '-');
   }
+
+  static getPercentageFromANumber(num, percentage) {
+    return num * percentage / 100;
+  }
 }

@@ -7,7 +7,7 @@ export class JobFacade {
     this.#jobFluentAPI = new JobFluentAPI();
   }
 
-  buildUnpaidJobsByClientId(clientId) {
+  buildUnpaidJobsAndInProgressContractsByClientId(clientId) {
     return this.#jobFluentAPI
       .getJobsByClientId(clientId)
       .getUnpaidJobs()
@@ -40,5 +40,12 @@ export class JobFacade {
     return this.#jobFluentAPI
       .getJobsAlreadyPaid()
       .buildJobs();
+  }
+
+  buildAllUnpaidJobsByClientId(clientId) {
+    return this.#jobFluentAPI
+      .getJobsByClientId(clientId)
+      .getUnpaidJobs()
+      .buildJobs()
   }
 }

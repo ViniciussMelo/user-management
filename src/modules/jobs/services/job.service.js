@@ -61,6 +61,30 @@ export class JobService {
     await this._savePayment(job, user);
   }
 
+  async getAmountOfJobsToPayByUserId(profileId) {
+    const jobs = await Job.findAll({
+      include: [
+        {
+          model: Contract,
+          include: [
+            {
+              model: Profile,
+              as: 'Client',
+              where: {
+                id: profileId
+              }
+            }
+          ]
+        }
+      ],
+      where: {
+        paid: null
+      }
+    });
+
+    return jobs.reduce((previousValue, currentValue) => previousValue + currentValue.price, 0);
+  }
+
   async _savePayment(job, user) {
     const t = await sequelize.transaction();
 
