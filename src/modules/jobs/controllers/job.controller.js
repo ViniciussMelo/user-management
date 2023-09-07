@@ -1,4 +1,4 @@
-import { JobService } from "../services/job.service.js";
+import { JobService } from '../services/job.service.js';
 
 class JobController {
   #jobService;
@@ -15,8 +15,13 @@ class JobController {
     return res.json({ data: [...data] }).end();
   }
 
-  createPayment(req, res) {
-    return res.send();
+  async makePayment(req, res) {
+    const { job_id } = req.params;
+    const { id: profileId } = req.profile;
+
+    await this.#jobService.makePayment(job_id, profileId);
+
+    return res.status(201).end();
   }
 }
 const jobController = new JobController();

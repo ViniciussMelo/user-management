@@ -3,9 +3,9 @@ import { Router } from 'express';
 import { getProfile } from '../middleware/get-profile.middleware.js';
 import { jobController } from '../../modules/index.js';
 
-const contractRoutes = Router();
+const jobRoutes = Router();
 
-contractRoutes.get('/unpaid', getProfile, jobController.getUnpaid.bind(jobController));
-contractRoutes.post('/:job_id/pay', jobController.createPayment.bind(jobController));
+jobRoutes.get('/unpaid', getProfile, jobController.getUnpaid.bind(jobController));
+jobRoutes.post('/:job_id/pay', getProfile, jobController.makePayment.bind(jobController));
 
-export default contractRoutes;
+export default jobRoutes;

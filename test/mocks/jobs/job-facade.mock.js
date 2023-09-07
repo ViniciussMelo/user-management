@@ -7,9 +7,38 @@ export class JobFacade {
     this.#jobFluentAPI = new JobFluentAPI();
   }
 
-  getActiveJobs() {
+  buildUnpaidJobsByClientId(clientId) {
     return this.#jobFluentAPI
-      .getActiveJobs()
+      .getJobsByClientId(clientId)
+      .getUnpaidJobs()
+      .getJobsWithContractInProgress()
+      .buildJobs();
+  }
+
+  buildUnpaidJobs() {
+    return this.#jobFluentAPI
+      .getUnpaidJobs()
+      .buildJobs();
+  }
+
+  buildJobsWithContractInProgressByClientId(clientId) {
+    return this.#jobFluentAPI
+      .getJobsByClientId(clientId)
+      .getJobsWithContractInProgress()
+      .buildJobs();
+  }
+
+  buildJobsWithContractTerminatedByClientId(clientId) {
+    return this.#jobFluentAPI
+      .getJobsByClientId(clientId)
+      .getUnpaidJobs()
+      .getJobsWithContractTerminated()
+      .buildJobs();
+  }
+
+  buildJobsAlreadyPaid() {
+    return this.#jobFluentAPI
+      .getJobsAlreadyPaid()
       .buildJobs();
   }
 }

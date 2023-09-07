@@ -7,8 +7,32 @@ export class JobFluentAPI {
     this.#data = jobMock;
   }
 
-  getActiveJobs() {
+  getJobsByClientId(clientId) {
+    this.#data = this.#data.filter((job) => job.Contract.ClientId === clientId);
+
+    return this;
+  }
+
+  getUnpaidJobs() {
     this.#data = this.#data.filter((job) => !job.paid);
+
+    return this;
+  }
+
+  getJobsWithContractInProgress() {
+    this.#data = this.#data.filter((job) => job.Contract.status === 'in_progress');
+
+    return this;
+  }
+
+  getJobsWithContractTerminated() {
+    this.#data = this.#data.filter((job) => job.Contract.status === 'terminated');
+
+    return this;
+  }
+
+  getJobsAlreadyPaid() {
+    this.#data = this.#data.filter((job) => job.paid);
 
     return this;
   }

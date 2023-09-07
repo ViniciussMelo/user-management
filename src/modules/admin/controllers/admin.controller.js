@@ -1,10 +1,26 @@
+import { AdminService } from '../services/admin.service.js';
+
 class AdminController {
-  getBestProfession(request, response) {
-    return response.send();
+  #adminService;
+
+  constructor() {
+    this.#adminService = new AdminService();
   }
 
-  getBestClients(request, response) {
-    return response.send();
+  async getProfileById(req, res) {
+    const { id: profileId } = req.params;
+
+    const user = await this.#adminService.getProfileById(profileId);
+
+    return res.json({ data: user }).end();
+  }
+
+  getBestProfession(req, res) {
+    return res.send();
+  }
+
+  getBestClients(req, res) {
+    return res.send();
   }
 }
 

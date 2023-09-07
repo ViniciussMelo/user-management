@@ -18,7 +18,7 @@ describe('Test suit for ContractService', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   describe('#index', () => {
