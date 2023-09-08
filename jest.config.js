@@ -24,5 +24,6 @@ export default {
   testEnvironment: "node",
   watchPathIgnorePatterns: [
     "node_modules"
-  ]
+  ],
+  testSequencer: "./test/test.sequencer.js"
 };

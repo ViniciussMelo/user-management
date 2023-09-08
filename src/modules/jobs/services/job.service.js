@@ -1,12 +1,12 @@
-import { Op } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 
 import { sequelize } from '../../../shared/database/sequelize.client.js';
 import { Contract } from '../../contracts/models/contract.model.js';
+import { MathUtil } from '../../../shared/utils/math.utils.js';
 import AppError from '../../../shared/errors/app.error.js';
 import { GetJobDto } from '../dtos/get-job.dto.js';
 import { Profile } from '../../admin/index.js';
 import { Job } from '../models/job.model.js';
-import { MathUtil } from '../../../shared/utils/math.utils.js';
 
 export class JobService {
   async getUnpaid(profileId) {

@@ -1,4 +1,4 @@
-import { BalanceService } from "../services/balance.service";
+import { BalanceService } from "../services/balance.service.js";
 
 class BalanceController {
   #balanceService;

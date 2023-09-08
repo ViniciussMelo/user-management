@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize';
 
 import { sequelize } from '../../../shared/database/sequelize.client.js';
-import { Contract } from '../../contracts/index.js';
-import { Profile } from '../../admin/index.js';
+import { Contract } from '../../contracts/models/contract.model.js';
+import { Profile } from '../../admin/models/profile.model.js';
 
 export const Job = sequelize.define('Job', {
   description: {

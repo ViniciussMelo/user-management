@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeEach } from '@jest/globals';
+import { describe, test, expect } from '@jest/globals';
 import request from 'supertest';
 
 import { HeaderMock } from '../../../../test/mocks/headers/header.mock';
@@ -13,40 +13,36 @@ describe('Test suit for JobController', () => {
         .get('/jobs/unpaid')
         .set(customHeaders);
 
-      expect(response.body).toStrictEqual(
+      expect(response.body.data).toStrictEqual([
         {
-          data: [
-            {
-              id: 1,
-              description: 'work',
-              price: 200,
-              paid: null,
-              paymentDate: null,
-              ContractId: 1,
-              Contract: {
-                id: 1,
-                status: 'terminated',
-                ContractorId: 5,
-                ClientId: 1
-              }
-            },
-            {
-              id: 2,
-              description: 'work',
-              price: 201,
-              paid: null,
-              paymentDate: null,
-              ContractId: 2,
-              Contract: {
-                id: 2,
-                status: 'in_progress',
-                ContractorId: 6,
-                ClientId: 1
-              }
-            }
-          ]
+          id: 1,
+          description: 'work',
+          price: 200,
+          paid: null,
+          paymentDate: null,
+          ContractId: 1,
+          Contract: {
+            id: 1,
+            status: 'terminated',
+            ContractorId: 5,
+            ClientId: 1
+          }
+        },
+        {
+          id: 2,
+          description: 'work',
+          price: 201,
+          paid: null,
+          paymentDate: null,
+          ContractId: 2,
+          Contract: {
+            id: 2,
+            status: 'in_progress',
+            ContractorId: 6,
+            ClientId: 1
+          }
         }
-      )
+      ]);
     });
 
     test('should return 401 if the profile does not exists on the database', async () => {
@@ -149,6 +145,7 @@ describe('Test suit for JobController', () => {
         .set(customHeaders);
 
       expect(responseSecondJobPaid.status).toBe(400);
+      expect(responseSecondJobPaid.body.message).toBe('Check your available money!');
     });
   });
 

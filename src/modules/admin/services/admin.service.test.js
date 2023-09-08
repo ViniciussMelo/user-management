@@ -1,0 +1,37 @@
+import { describe, test, beforeEach, expect, jest } from '@jest/globals';
+
+import { AdminService } from './admin.service.js';
+import { JobFacade } from '../../../../test/mocks/jobs/job-facade.mock.js';
+import { sequelize } from '../../../shared/database/sequelize.client.js';
+
+describe('Test suit for AdminService', () => {
+  let jobFacade;
+  let service;
+
+  beforeEach(() => {
+    service = new AdminService();
+    jobFacade = new JobFacade();
+  });
+
+  describe('#getBestProfession', () => {
+    test('should be able to get the best profession', async () => {
+      const bestProfession = jobFacade.buildBestProfession();
+
+      jest.spyOn(sequelize, 'query').mockImplementationOnce(() => bestProfession);
+      const result = await service.getBestProfession();
+
+      expect(result).toStrictEqual(bestProfession);
+    });
+  });
+
+  describe('#getBestClients', () => {
+    test('should be able to get the best clients', async () => {
+      const getBestClients = jobFacade.buildBestClients();
+
+      jest.spyOn(sequelize, 'query').mockImplementationOnce(() => getBestClients);
+      const result = await service.getBestClients();
+
+      expect(result).toStrictEqual(getBestClients);
+    });
+  });
+});

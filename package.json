@@ -19,13 +19,14 @@
   "scripts": {
     "start": "nodemon --ignore '*.test.js' ./src/server.js",
     "seed": "node ./scripts/seedDb.js",
-    "pretest": "rm -rf database.test.sqlite3",
+    "pretest": "rimraf database.test.sqlite3",
     "test": "cross-env NODE_ENV=test node ./scripts/seedDb.js & NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand --config ./jest.config.js",
-    "test:cov": "cross-env NODE_ENV=test node ./scripts/seedDb.js & NODE_OPTIONS=--experimental-vm-modules npx jest --config ./jest.config.js --coverage"
+    "test:cov": "cross-env NODE_ENV=test node ./scripts/seedDb.js & NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand --config ./jest.config.js --coverage"
   },
   "devDependencies": {
     "concurrently": "^8.0.1",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "rimraf": "^5.0.1"
   },
   "engines": {
     "node": ">=10.16.3"

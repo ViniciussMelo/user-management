@@ -48,4 +48,50 @@ export class JobFacade {
       .getUnpaidJobs()
       .buildJobs()
   }
+
+  buildBestProfession() {
+    const jobs = this.#jobFluentAPI
+      .getJobsAlreadyPaid()
+      .buildJobs();
+
+    const bestProfessionMap = new Map();
+
+    jobs.forEach((job) => {
+      const key = job.Contract.Contractor.profession;
+      const lastValue = bestProfessionMap.get(key) || 0;
+
+      bestProfessionMap.set(key, lastValue + job.price);
+    });
+
+    return Array.from(bestProfessionMap).map(([key, value]) => ({
+      totalPaid: value,
+      profession: key,
+    }));
+  }
+
+  buildBestClients() {
+    const jobs = this.#jobFluentAPI
+      .getJobsAlreadyPaid()
+      .buildJobs();
+
+    const bestClientsMap = new Map();
+
+    jobs.forEach((job) => {
+      const { id: key, firstName, lastName } = job.Contract.Client;
+      const lastValue = bestClientsMap.get(key)?.paid || 0;
+      const fullName = `${firstName} ${lastName}`;
+
+
+      bestClientsMap.set(key, {
+        fullName,
+        paid: lastValue + job.price
+      });
+    });
+
+    return Array.from(bestClientsMap).map(([key, value]) => ({
+      id: key,
+      fullName: value.fullName,
+      paid: value.paid,
+    }));
+  }
 }

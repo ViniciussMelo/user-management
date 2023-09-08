@@ -12,7 +12,7 @@ class JobController {
 
     const data = await this.#jobService.getUnpaid(profileId);
 
-    return res.json({ data: [...data] }).end();
+    return res.json({ data }).end();
   }
 
   async makePayment(req, res) {
@@ -30,7 +30,7 @@ class JobController {
 
     const data = await this.#jobService.getJobById(jobId, profileId);
 
-    return res.json({ data: { ...data } }).end()
+    return res.json({ data }).end();
   }
 }
 const jobController = new JobController();

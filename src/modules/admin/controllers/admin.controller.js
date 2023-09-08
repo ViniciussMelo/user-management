@@ -15,12 +15,20 @@ class AdminController {
     return res.json({ data: user }).end();
   }
 
-  getBestProfession(req, res) {
-    return res.send();
+  async getBestProfession(req, res) {
+    const { start, end } = req.query;
+
+    const data = await this.#adminService.getBestProfession(start, end);
+
+    return res.json({ data }).end();
   }
 
-  getBestClients(req, res) {
-    return res.send();
+  async getBestClients(req, res) {
+    const { start, end, limit } = req.query;
+
+    const data = await this.#adminService.getBestClients(start, end, limit);
+
+    return res.json({ data }).end();
   }
 }
 

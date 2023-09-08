@@ -12,7 +12,7 @@ class ContractController {
 
     const data = await this.#contractService.index(profileId, type);
 
-    return res.json({ data: [...data] }).end();
+    return res.json({ data }).end();
   }
 
   async getById(req, res) {
@@ -21,7 +21,7 @@ class ContractController {
 
     const data = await this.#contractService.getContractById(id, profileId, type);
 
-    return res.json({ data: { ...data } }).end();
+    return res.json({ data }).end();
   }
 }
 

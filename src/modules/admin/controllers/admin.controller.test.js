@@ -4,15 +4,82 @@ import request from 'supertest';
 import app from '../../../app.js';
 
 describe('Test suit for AdminController', () => {
-  describe('#getBestProfession', () => {
-    test.todo('');
+  describe('/admin/best-profession', () => {
+    test('should be able to get best profession with no filter', async () => {
+      const response = await request(app)
+        .get('/admin/best-profession');
+
+      expect(response.status).toBe(200);
+      expect(response.body.data).toStrictEqual([
+        { totalPaid: 200, profession: 'Fighter' },
+        { totalPaid: 221, profession: 'Musician' },
+        { totalPaid: 2683, profession: 'Programmer' }
+      ]);
+    });
+
+    test('should be able to get best profession with date filter', async () => {
+      const response = await request(app)
+        .get('/admin/best-profession?start=2020-08-09&end=2020-08-15');
+
+      expect(response.status).toBe(200);
+      expect(response.body.data).toStrictEqual([
+        { totalPaid: 21, profession: 'Musician' },
+        { totalPaid: 121, profession: 'Programmer' }
+      ]);
+    });
   });
 
-  describe('#getBestClients', () => {
-    test.todo('');
+  describe('/admin/best-clients', () => {
+    test('should be able to get all best clients with no filter and limit default', async () => {
+      const response = await request(app)
+        .get('/admin/best-clients');
+
+      expect(response.status).toBe(200);
+      expect(response.body.data).toStrictEqual([
+        { paid: 2020, id: 4, firstName: 'Ash', lastName: 'Kethcum' },
+        { paid: 442, id: 2, firstName: 'Mr', lastName: 'Robot' }
+      ]);
+    });
+
+    test('should be able to get all best clients with date filter and limit default', async () => {
+      const response = await request(app)
+        .get('/admin/best-clients?start=2020-08-09&end=2020-08-15');
+
+      expect(response.status).toBe(200);
+
+      expect(response.body.data).toStrictEqual([
+        { paid: 121, id: 2, firstName: 'Mr', lastName: 'Robot' },
+        { paid: 21, id: 1, firstName: 'Harry', lastName: 'Potter' }
+      ]);
+    });
+
+    test('should be able to get all best clients with user chosen limit', async () => {
+      const response = await request(app)
+        .get('/admin/best-clients?limit=10');
+
+      expect(response.status).toBe(200);
+
+      expect(response.body.data).toStrictEqual([
+        { paid: 2020, id: 4, firstName: 'Ash', lastName: 'Kethcum' },
+        { paid: 442, id: 2, firstName: 'Mr', lastName: 'Robot' },
+        { paid: 442, id: 1, firstName: 'Harry', lastName: 'Potter' },
+        { paid: 200, id: 3, firstName: 'John', lastName: 'Snow' }
+      ]);
+    });
+
+    test('should be able to get all best clients with user chosen limit and date filter', async () => {
+      const response = await request(app)
+        .get('/admin/best-clients?start=2020-08-09&end=2020-08-15&limit=1');
+
+      expect(response.status).toBe(200);
+
+      expect(response.body.data).toStrictEqual([
+        { paid: 121, id: 2, firstName: 'Mr', lastName: 'Robot' },
+      ]);
+    });
   });
 
-  describe('#getProfileById', () => {
+  describe('/admin/profile/:id', () => {
     test('should be able to get a user by id', async () => {
       const userId = 1;
 
