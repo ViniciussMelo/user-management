@@ -4,7 +4,6 @@ import { JobService } from "../../jobs/index.js";
 import { Profile } from "../../admin/index.js";
 
 export class BalanceService {
-  test = 1;
   #allowedPercentage;
   #jobService;
 
@@ -17,6 +16,10 @@ export class BalanceService {
   async makeDeposit(userId, value, profileId) {
     if (userId !== profileId) {
       throw new AppError('You cannot deposit into a profile that not belongs to you!')
+    }
+
+    if (value <= 0) {
+      throw new AppError('Invalid amount!');
     }
 
     const user = await Profile.findOne({
@@ -36,7 +39,8 @@ export class BalanceService {
     }
 
     await Profile.update(
-      { balance: MathUtil.sum(user.balance, value) }
-    )
+      { balance: MathUtil.sum(user.balance, value) },
+      { where: { id: userId } }
+    );
   }
 }

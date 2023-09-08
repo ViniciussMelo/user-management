@@ -133,5 +133,20 @@ describe('Test suit for JobService', () => {
         new AppError('Invalid job id!'),
       );
     });
+
+    test('should throw an error when something went wrong during the database transaction', async () => {
+      const [client] = adminFacade.buildClientProfile();
+      const [jobWithContractInProgress] = jobFacade.buildJobsWithContractInProgressByClientId(client.id);
+
+      jest.spyOn(Job, 'findOne').mockImplementationOnce(() => jobWithContractInProgress);
+      jest.spyOn(Profile, 'findOne').mockImplementationOnce(() => client);
+      jest.spyOn(Profile, 'update').mockRejectedValueOnce(() => new Error('error!'));
+
+      await expect(
+        service.makePayment(jobWithContractInProgress.id, client.id)
+      ).rejects.toEqual(
+        new AppError('Error while saving payment!'),
+      );
+    })
   })
 });
