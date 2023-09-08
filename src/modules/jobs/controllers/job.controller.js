@@ -23,6 +23,15 @@ class JobController {
 
     return res.status(201).end();
   }
+
+  async getJobById(req, res) {
+    const { jobId } = req.params;
+    const { id: profileId } = req.profile;
+
+    const data = await this.#jobService.getJobById(jobId, profileId);
+
+    return res.json({ data: { ...data } }).end()
+  }
 }
 const jobController = new JobController();
 

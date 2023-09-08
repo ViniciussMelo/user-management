@@ -148,5 +148,27 @@ describe('Test suit for JobService', () => {
         new AppError('Error while saving payment!'),
       );
     })
-  })
+  });
+
+  describe('#getJobById', () => {
+    test('should be able to a client get his own job by id', async () => {
+      const [mockedJob] = jobFacade.buildUnpaidJobs();
+
+      jest.spyOn(Job, 'findOne').mockImplementationOnce(() => mockedJob);
+
+      const result = await service.getJobById(mockedJob.id, mockedJob.Contract.ClientId);
+
+      expect(result).toStrictEqual(GetJobDto.factory(mockedJob));
+    });
+
+    test('should throw a error if the job does not exists', async () => {
+      jest.spyOn(Job, 'findOne').mockImplementationOnce(() => null);
+
+      await expect(
+        service.getJobById(1, 1)
+      ).rejects.toEqual(
+        new AppError('Invalid jobId!'),
+      );
+    });
+  });
 });

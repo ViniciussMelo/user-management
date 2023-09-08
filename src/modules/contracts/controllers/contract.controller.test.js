@@ -1,22 +1,11 @@
-import { describe, test, expect, beforeEach, afterEach, jest } from '@jest/globals';
+import { describe, test, expect } from '@jest/globals';
 import request from 'supertest';
 
-import { ContractFacade } from '../../../../test/mocks/contract/contract-facade.mock.js';
 import { HeaderMock } from '../../../../test/mocks/headers/header.mock.js';
 import app from '../../../app.js';
 
 describe('Test suit for ContractController', () => {
-  let contractFacade;
-
-  beforeEach(() => {
-    contractFacade = new ContractFacade();
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  })
-
-  describe('#index', () => {
+  describe('/contracts', () => {
 
     test('should be able to get only non terminated contracts belonging to a client', async () => {
       const profileId = 1;
@@ -89,7 +78,7 @@ describe('Test suit for ContractController', () => {
     });
   });
 
-  describe('#getById', () => {
+  describe('/contracts/:id', () => {
     test('should be able to get the contracts for the user profile who is calling', async () => {
       const customHeaders = HeaderMock.factory();
 
@@ -98,7 +87,13 @@ describe('Test suit for ContractController', () => {
         .set(customHeaders);
 
       expect(response.status).toBe(200);
-      // expect(response.body.data).toStrictEqual(contractMock);
+      expect(response.body.data).toStrictEqual({
+        id: 1,
+        terms: 'bla bla bla',
+        status: 'terminated',
+        ContractorId: 5,
+        ClientId: 1
+      });
     });
 
     test('should not be able to get the contracts from other users', async () => {

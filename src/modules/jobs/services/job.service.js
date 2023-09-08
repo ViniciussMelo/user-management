@@ -85,6 +85,29 @@ export class JobService {
     return jobs.reduce((previousValue, currentValue) => previousValue + currentValue.price, 0);
   }
 
+  async getJobById(jobId, profileId) {
+    const job = await Job.findOne({
+      include: {
+        model: Contract,
+        where: {
+          [Op.or]: [
+            { 'ClientId': profileId },
+            { 'ContractorId': profileId },
+          ]
+        }
+      },
+      where: {
+        id: jobId
+      }
+    });
+
+    if (!job) {
+      throw new AppError('Invalid jobId!');
+    }
+
+    return GetJobDto.factory(job);
+  }
+
   async _savePayment(job, user) {
     const t = await sequelize.transaction();
 
@@ -107,9 +130,9 @@ export class JobService {
       );
 
       await Job.update(
-        { paid: true },
+        { paid: true, paymentDate: new Date() },
         { where: { id: job.id }, transaction: t }
-      )
+      );
 
       await t.commit();
     } catch (error) {

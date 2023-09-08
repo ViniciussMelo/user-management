@@ -5,7 +5,7 @@ import { HeaderMock } from '../../../../test/mocks/headers/header.mock';
 import app from '../../../app.js';
 
 describe('Test suit for BalanceController', () => {
-  describe('#createDeposit', () => {
+  describe('/balances/deposit/:userId', () => {
     test('should be able to deposits money into the balance of a client', async () => {
       const userId = 1;
       const customHeaders = HeaderMock.factory(userId);
