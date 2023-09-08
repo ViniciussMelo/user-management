@@ -1,4 +1,4 @@
-import { Op, Sequelize } from 'sequelize';
+import { Op } from 'sequelize';
 
 import { sequelize } from '../../../shared/database/sequelize.client.js';
 import { Contract } from '../../contracts/models/contract.model.js';

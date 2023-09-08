@@ -1,11 +1,9 @@
 import { QueryTypes } from 'sequelize';
 
+import { sequelize } from '../../../shared/database/sequelize.client.js';
 import AppError from '../../../shared/errors/app.error.js';
 import { Profile } from '../models/profile.model.js';
-import { Contract } from '../../contracts/models/contract.model.js';
 import { UserDto } from '../dtos/user.dto.js'
-import { sequelize } from '../../../shared/database/sequelize.client.js';
-import { Job } from '../../jobs/models/job.model.js';
 
 export class AdminService {
   #defaultQueryLimit;

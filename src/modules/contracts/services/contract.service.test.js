@@ -2,8 +2,8 @@ import { describe, test, beforeEach, expect, jest } from '@jest/globals';
 
 
 import { ContractFacade } from '../../../../test/mocks/contract/contract-facade.mock.js';
-import { GetContract } from '../dtos/get-contract.dto.js';
 import AppError from '../../../shared/errors/app.error.js';
+import { GetContract } from '../dtos/get-contract.dto.js';
 import { ContractService } from './contract.service.js';
 import { Contract } from '../models/contract.model.js';
 

@@ -1,8 +1,8 @@
 import { describe, test, beforeEach, expect, jest } from '@jest/globals';
 
-import { AdminService } from './admin.service.js';
 import { JobFacade } from '../../../../test/mocks/jobs/job-facade.mock.js';
 import { sequelize } from '../../../shared/database/sequelize.client.js';
+import { AdminService } from './admin.service.js';
 
 describe('Test suit for AdminService', () => {
   let jobFacade;

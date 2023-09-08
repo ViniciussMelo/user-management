@@ -1,7 +1,7 @@
-import { MathUtil } from "../../../shared/utils/math.utils.js";
-import AppError from "../../../shared/errors/app.error.js";
-import { JobService } from "../../jobs/index.js";
-import { Profile } from "../../admin/index.js";
+import { MathUtil } from '../../../shared/utils/math.utils.js';
+import AppError from '../../../shared/errors/app.error.js';
+import { JobService } from '../../jobs/index.js';
+import { Profile } from '../../admin/index.js';
 
 export class BalanceService {
   #allowedPercentage;
