@@ -86,6 +86,12 @@ export class AdminService {
       type: QueryTypes.SELECT
     });
 
-    return results;
+    return results.map((result) => {
+      return {
+        paid: result.paid,
+        id: result.id,
+        fullName: `${result.firstName} ${result.lastName}`
+      }
+    });
   }
 }

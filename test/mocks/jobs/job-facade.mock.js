@@ -79,18 +79,18 @@ export class JobFacade {
     jobs.forEach((job) => {
       const { id: key, firstName, lastName } = job.Contract.Client;
       const lastValue = bestClientsMap.get(key)?.paid || 0;
-      const fullName = `${firstName} ${lastName}`;
-
 
       bestClientsMap.set(key, {
-        fullName,
+        firstName,
+        lastName,
         paid: lastValue + job.price
       });
     });
 
     return Array.from(bestClientsMap).map(([key, value]) => ({
       id: key,
-      fullName: value.fullName,
+      firstName: value.firstName,
+      lastName: value.lastName,
       paid: value.paid,
     }));
   }

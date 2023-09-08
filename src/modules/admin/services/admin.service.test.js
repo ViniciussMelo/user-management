@@ -31,7 +31,15 @@ describe('Test suit for AdminService', () => {
       jest.spyOn(sequelize, 'query').mockImplementationOnce(() => getBestClients);
       const result = await service.getBestClients();
 
-      expect(result).toStrictEqual(getBestClients);
+      const formattedResult = getBestClients.map((bestClient) => {
+        return {
+          paid: bestClient.paid,
+          id: bestClient.id,
+          fullName: `${bestClient.firstName} ${bestClient.lastName}`
+        }
+      })
+
+      expect(result).toStrictEqual(formattedResult);
     });
   });
 });

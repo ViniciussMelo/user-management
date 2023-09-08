@@ -36,8 +36,8 @@ describe('Test suit for AdminController', () => {
 
       expect(response.status).toBe(200);
       expect(response.body.data).toStrictEqual([
-        { paid: 2020, id: 4, firstName: 'Ash', lastName: 'Kethcum' },
-        { paid: 442, id: 2, firstName: 'Mr', lastName: 'Robot' }
+        { paid: 2020, id: 4, fullName: 'Ash Kethcum' },
+        { paid: 442, id: 2, fullName: 'Mr Robot' }
       ]);
     });
 
@@ -48,8 +48,8 @@ describe('Test suit for AdminController', () => {
       expect(response.status).toBe(200);
 
       expect(response.body.data).toStrictEqual([
-        { paid: 121, id: 2, firstName: 'Mr', lastName: 'Robot' },
-        { paid: 21, id: 1, firstName: 'Harry', lastName: 'Potter' }
+        { paid: 121, id: 2, fullName: 'Mr Robot' },
+        { paid: 21, id: 1, fullName: 'Harry Potter' }
       ]);
     });
 
@@ -60,10 +60,10 @@ describe('Test suit for AdminController', () => {
       expect(response.status).toBe(200);
 
       expect(response.body.data).toStrictEqual([
-        { paid: 2020, id: 4, firstName: 'Ash', lastName: 'Kethcum' },
-        { paid: 442, id: 2, firstName: 'Mr', lastName: 'Robot' },
-        { paid: 442, id: 1, firstName: 'Harry', lastName: 'Potter' },
-        { paid: 200, id: 3, firstName: 'John', lastName: 'Snow' }
+        { paid: 2020, id: 4, fullName: 'Ash Kethcum' },
+        { paid: 442, id: 2, fullName: 'Mr Robot' },
+        { paid: 442, id: 1, fullName: 'Harry Potter' },
+        { paid: 200, id: 3, fullName: 'John Snow' }
       ]);
     });
 
@@ -74,7 +74,7 @@ describe('Test suit for AdminController', () => {
       expect(response.status).toBe(200);
 
       expect(response.body.data).toStrictEqual([
-        { paid: 121, id: 2, firstName: 'Mr', lastName: 'Robot' },
+        { paid: 121, id: 2, fullName: 'Mr Robot' },
       ]);
     });
   });
